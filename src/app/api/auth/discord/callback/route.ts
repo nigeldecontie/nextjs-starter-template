@@ -21,23 +21,11 @@ export async function GET(request: Request): Promise<Response> {
 
   try {
     const tokens = await discord.validateAuthorizationCode(code);
-
     const discordUserResponse = await fetch('https://discord.com/api/users/@me', {
       headers: {
         Authorization: `Bearer ${tokens.accessToken}`,
       },
-      cache: 'no-cache',
     });
-
-    const body = discordUserResponse.body;
-    const headers = discordUserResponse.headers;
-    const url = discordUserResponse.url;
-    console.log({ code });
-    console.log({ tokens });
-    console.log({ body });
-    console.log({ headers });
-    console.log({ url });
-    console.log({ discordUserResponse });
 
     const discordUser: DiscordUser = await discordUserResponse.json();
 
@@ -80,8 +68,6 @@ export async function GET(request: Request): Promise<Response> {
       },
     });
   } catch (e) {
-    console.log({ e });
-
     // the specific error message depends on the provider
     if (e instanceof OAuth2RequestError) {
       // invalid code

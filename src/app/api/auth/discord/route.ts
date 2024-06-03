@@ -5,7 +5,7 @@ import { discord } from '@/server/auth';
 export async function GET(): Promise<Response> {
   const state = generateState();
   const url = await discord.createAuthorizationURL(state, {
-    scopes: ['openid', 'email'],
+    scopes: ['identify', 'email'],
   });
 
   cookies().set('discord_oauth_state', state, {
